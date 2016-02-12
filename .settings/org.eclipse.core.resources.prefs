@@ -1,0 +1,20 @@
+#Thu Feb 11 06:07:02 VET 2016
+eclipse.preferences.version=1
+encoding//src/ru/rostvertolplc/osapr/extmaterial=windows-1251
+encoding//src/ru/rostvertolplc/osapr/extmaterial/IMBASE_Util.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/extmaterial/MatGroupData.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/extmaterial/abstractSelMatDlg.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/extmaterial/intfExternalMaterial.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/DSEUserData.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/H48PIRVZForm.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/H48PIRVZRevForm.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/MaterialItemPanel.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/SmartTCEForm.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/StdRevPanel.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/FloatVerifier.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/LListModel.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/LUtil.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/SendListDlg.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/TextAreaDocument.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/util/TextFieldDocument.java=windows-1251
+encoding/<project>=windows-1251
