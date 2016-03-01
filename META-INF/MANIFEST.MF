@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Base
 Bundle-SymbolicName: ru.rostvertolplc.osapr.base;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.0.alpha
 Bundle-Activator: ru.rostvertolplc.osapr.base.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -13,7 +13,18 @@ Require-Bundle: org.eclipse.ui,
  com.teamcenter.rac.tcapps;bundle-version="8000.3.0",
  com.teamcenter.rac.util;bundle-version="8000.3.0",
  MILX2008.Base;bundle-version="1.8.3",
- LANIT.Borland.lib;bundle-version="1.8.3"
+ LANIT.Borland.lib;bundle-version="1.8.3",
+ ru.rostvertolplc.osapr.TcProps;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: ru.rostvertolplc.osapr.base
+Export-Package: com.teamcenter.rac.stylesheet,
+ ru.rostvertolplc.osapr.base,
+ ru.rostvertolplc.osapr.enums,
+ ru.rostvertolplc.osapr.extmaterial,
+ ru.rostvertolplc.osapr.forms,
+ ru.rostvertolplc.osapr.helpers,
+ ru.rostvertolplc.osapr.regbook,
+ ru.rostvertolplc.osapr.util
+Bundle-Vendor: RVT_OSAPR
+Bundle-ClassPath: resources/images/,
+ .

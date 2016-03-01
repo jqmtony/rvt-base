@@ -18,6 +18,7 @@ import ru.rostvertolplc.osapr.extmaterial.*;
 import com.teamcenter.rac.common.lov.*;
 import com.teamcenter.rac.util.*;
 import ru.rostvertolplc.osapr.util.FloatVerifier;
+import ru.rostvertolplc.osapr.regbook.*;
 //import com.LANIT.regbook.*;
 
 
@@ -77,6 +78,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   private JLabel LCodeDSE = new JLabel();
   private JTextField edCodeDSE = new TextFieldDocument(15);
   BorderLayout borderLayout1 = new BorderLayout();
+  BorderLayout borderLayoutHead = new BorderLayout();
   GridBagLayout gridBagLayout6 = new GridBagLayout();
   private JLabel jLabel21 = new JLabel();
   private JTextField edNameFull = new TextFieldDocument(256);
@@ -89,6 +91,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   private DateButton dateChange = new DateButton();
   private JLabel jLabel24 = new JLabel();
   private TextFieldDocument edN_Izv = new TextFieldDocument(32);
+  private JLabel vrtLogo = new JLabel();  
   JCheckBox chbFromModel = new JCheckBox();
   JLabel jLabel8 = new JLabel();
   JTextField edType = new JTextField();
@@ -132,8 +135,9 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
 
   public StdRevPanel(DSEUserData theData) {
     data = theData;
-    try {
-      session = (TCSession)data.item.getSession();
+    try {    	
+      // добавил Стеценко, так как item может быть не определен	
+      session = data.item != null ? (TCSession)data.item.getSession() : (TCSession)data.form.getSession();   	     
       jbInit();
       renderData();
 /*
@@ -165,7 +169,10 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   public void renderData()
   {
     // Отображаемое поле
-    edType.setText(data.item.getType());
+	// добавил Стеценко, так как item может быть не определен при создании нового объекта  
+	  if (data.item != null) {  
+		edType.setText(data.item.getType());
+	}	
     edCodeDSE.setText(data.code_dse);
     edIndication.setText(data.indication);
     edNameFull.setText(data.name_dse);
@@ -344,7 +351,16 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     LHeader.setAlignmentX((float) 0.5);
     LHeader.setHorizontalAlignment(SwingConstants.CENTER);
     LHeader.setHorizontalTextPosition(SwingConstants.CENTER);
-    LHeader.setText("Стандартное изделие - Модификация");
+    LHeader.setText("Стандартное изделие - Модификация");        
+    vrtLogo.setText("");
+    try {
+		vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("resources/images/rostvertol.png")));
+	} catch (Exception e) {
+		// TODO: handle exception
+	}     
+	vrtLogo.setAlignmentX((float) 0.5);
+    vrtLogo.setHorizontalAlignment(SwingConstants.CENTER);
+    vrtLogo.setHorizontalTextPosition(SwingConstants.CENTER);
     MainPanel.setMinimumSize(new Dimension(400, 320));
     MainPanel.setPreferredSize(new Dimension(400, 320));
     jpVR.setMinimumSize(new Dimension(110, 400));
@@ -645,8 +661,13 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     TabbedPane.add(MainPanel, "Общие данные");
     TabbedPane.add(jpMilx,   "Прочее");
 //    TabbedPane.add(jpVR, "Ведомости");
-
-    this.add(LHeader,  BorderLayout.NORTH);
+    JPanel panelHead = new JPanel();
+    panelHead.setLayout(borderLayoutHead);
+    panelHead.add(LHeader, BorderLayout.CENTER);
+    panelHead.add(vrtLogo, BorderLayout.EAST);
+    //this.add(LHeader,  BorderLayout.NORTH);
+    //this.add(vrtLogo,  BorderLayout.);
+    this.add(panelHead, BorderLayout.NORTH);
     this.add(TabbedPane,  BorderLayout.CENTER);
     bgMat.add(rbMat);
     bgMat.add(rbZagot);

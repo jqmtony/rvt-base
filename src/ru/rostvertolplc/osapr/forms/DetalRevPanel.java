@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import ru.rostvertolplc.osapr.util.*;
 import com.teamcenter.rac.aif.*;
 import com.teamcenter.rac.kernel.*;
 import com.teamcenter.rac.util.*;
@@ -18,7 +17,10 @@ import com.teamcenter.rac.common.lov.*;
 //import com.teamcenter.rac.form.lovcombobox.*;
 //import com.teamcenter.rac.form.datebutton.*;
 import com.teamcenter.rac.kernel.TCUserService;
-import com.LANIT.regbook.*;
+
+import ru.rostvertolplc.osapr.util.*;
+import ru.rostvertolplc.osapr.extmaterial.*;
+import ru.rostvertolplc.osapr.regbook.*;
 
 
 
