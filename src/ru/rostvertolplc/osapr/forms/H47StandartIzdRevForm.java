@@ -190,7 +190,7 @@ public class H47StandartIzdRevForm extends AbstractRendering {
 				try {
 					data.item_rev = data.item.getLatestItemRevision();
 				} catch (Exception e) {
-					// TODO: handle exception
+					// TODO: Обработчик отстутствия item
 				}
 				/*
 				 * System.out.println(parentPanel.toString()+" | "+
