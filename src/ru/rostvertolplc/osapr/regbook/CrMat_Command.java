@@ -99,10 +99,9 @@ public class CrMat_Command extends AbstractAIFCommand
 
   // -----------------------------------------
 
-  public CrMat_Command(TCSession theSession)
-  {
+  public CrMat_Command(TCSession theSession) {
     session = theSession;
-  }
+    }
 
   public CrMat_Command(Frame theParent, TCComponentFolder c_folder)
   {
