@@ -12,13 +12,13 @@ Require-Bundle: org.eclipse.ui,
  com.teamcenter.rac.kernel;bundle-version="8000.3.0",
  com.teamcenter.rac.tcapps;bundle-version="8000.3.0",
  com.teamcenter.rac.util;bundle-version="8000.3.0",
- MILX2008.Base;bundle-version="1.8.3",
  LANIT.Borland.lib;bundle-version="1.8.3",
+ MILX2008.Base;bundle-version="1.8.3",
+ LANIT.TcProps;bundle-version="1.8.3",
  ru.rostvertolplc.osapr.TcProps;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: com.teamcenter.rac.stylesheet,
- ru.rostvertolplc.osapr.base,
+Export-Package: ru.rostvertolplc.osapr.base,
  ru.rostvertolplc.osapr.enums,
  ru.rostvertolplc.osapr.extmaterial,
  ru.rostvertolplc.osapr.forms,

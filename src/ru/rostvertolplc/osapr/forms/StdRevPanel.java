@@ -2,14 +2,12 @@ package ru.rostvertolplc.osapr.forms;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
-
 import ru.rostvertolplc.osapr.util.LUtil;
 import ru.rostvertolplc.osapr.util.TextFieldDocument;
 import java.awt.*;
 import com.teamcenter.rac.form.lovcombobox.FormLOVCombobox;
 import javax.swing.*;
 import java.awt.event.*;
-import javax.swing.border.Border;
 import com.teamcenter.rac.kernel.*;
 import com.teamcenter.rac.aif.*;
 import java.awt.datatransfer.*;
@@ -19,26 +17,15 @@ import com.teamcenter.rac.common.lov.*;
 import com.teamcenter.rac.util.*;
 import ru.rostvertolplc.osapr.util.FloatVerifier;
 import ru.rostvertolplc.osapr.regbook.*;
-//import com.LANIT.regbook.*;
-
 
 public class StdRevPanel extends JPanel implements InterfaceFormPanel
 {
-  /**
-	 * 
-	 */
   private static final long serialVersionUID = 8026480773494394467L;
-
-  //Registry R = Registry.getRegistry("com.LANIT.forms.L-forms");
   NameResolver NR = new NameResolver(); 
-	
   DSEUserData data = null;
-
   public JLabel LHeader = new JLabel();
   FloatVerifier floatVerifier = new FloatVerifier();
-  //java.util.Timer timer;
   TCSession session;
-
   private JLabel jLabel2 = new JLabel();
   private JLabel jLabel1 = new JLabel();
   private JLabel jLabel5= new JLabel();
@@ -136,14 +123,10 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   public StdRevPanel(DSEUserData theData) {
     data = theData;
     try {    	
-      // добавил Стеценко, так как item может быть не определен	
+      // vertol так как item может быть не определен	
       session = data.item != null ? (TCSession)data.item.getSession() : (TCSession)data.form.getSession();   	     
       jbInit();
-      renderData();
-/*
-      timer = new java.util.Timer();
-      timer.scheduleAtFixedRate(new CheckTask(data.form), 100, 1000);
-*/      
+      renderData();   
     }
     catch(Exception e) {
       e.printStackTrace();
@@ -169,7 +152,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   public void renderData()
   {
     // Отображаемое поле
-	// добавил Стеценко, так как item может быть не определен при создании нового объекта  
+	// vertol, так как item может быть не определен при создании нового объекта  
 	  if (data.item != null) {  
 		edType.setText(data.item.getType());
 	}	
@@ -179,29 +162,17 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     edRev.setText(data.revision);
     LNotSaved.setVisible(data.sc==null);
     // Реальные поля
-//    edRoditel.setText(data.roditel);
     dateCreate.setText(LUtil.Date2String(data.date_create_obj));
     dateChange.setDate(data.change_date);
     edN_Izv.setText(data.izv_id);
-
-    //edMassa.setText( String.valueOf(data.massa) );
     edMassa.setText(  LUtil.float2string(data.massa, 6) );
     edMassa.setEnabled(!data.pr_from_model);
     setMassColor(data.kim);
     chbFromModel.setSelected(data.pr_from_model);
-
     edDensity.setText(LUtil.float2string(data.density, 8));
     edGOST.setText( data.gost );
     edNameMat.setText( data.material );
     edMatShifr.setText(data.mater_shifr);
-    /*
-    edMarkPlace.setText(data.vr7_mesto);
-    chbVR10.setSelected(data.vr10);
-    edVR10_TechPas.setText(data.vr10_tex_pas);
-    edVR10_Note.setText(data.vr10_note);
-    chbVR18.setSelected(data.vr18);
-    edVR18_Note.setText(data.vr18_note);
-    */
    // Базовая CAD-система
    cbCAD.setLOVComponent(session, data.NR.lov_CADSYS);
    cbCAD.setSelectedItem(data.cad_sys);
@@ -235,35 +206,18 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
 
   public void saveToUserData()
   {
-//    String sObj=null;
-//    int len;
     try
     {
-//      data.indication = edIndication.getText(); // унаследуется
-//      data.name_dse = edNameFull.getText(); // унаследуется
-//      data.gost = edGOST.getText(); // унаследуется
-//      data.code_dse = edCodeDSE.getText();
       data.change_date = dateChange.getDate();
       data.izv_id = edN_Izv.getText();
       data.massa = LUtil.string2float(edMassa.getText());
       data.pr_from_model = chbFromModel.isSelected();
       data.density = LUtil.string2float(edDensity.getText());
-//      data.roditel = edRoditel.getText();
       data.liter1 = icbLiter.getSelectedString();
       data.material = edNameMat.getText();
       data.mater_shifr = edMatShifr.getText();
       data.cad_sys = LUtil.getSelectedStrCB(cbCAD);
       data.gabarit = edLength.getText()+'x'+edWidth.getText()+'x'+edDepth.getText();
-      /*
-      data.vr7_mesto = edMarkPlace.getText();
-      data.vr10 = chbVR10.isSelected();
-      data.vr10_tex_pas = edVR10_TechPas.getText();
-      data.vr10_note = edVR10_Note.getText();
-      data.vr18 = chbVR18.isSelected();
-      data.vr18_note = edVR18_Note.getText();
-      data.vr7_sod_mark = cbSoderMark.getSelectedItem()==null ? "" : cbSoderMark.getSelectedItem().toString();
-      data.vr7_spo_nanes = cbSposobMark.getSelectedItem()==null ? "" : cbSposobMark.getSelectedItem().toString();
-      */
     }
     catch (Exception ex)
     {
@@ -354,7 +308,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     LHeader.setText("Стандартное изделие - Модификация");        
     vrtLogo.setText("");
     try {
-		vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("resources/images/rostvertol.png")));
+		vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource(FormConsts.sVertolLogo)));
 	} catch (Exception e) {
 		// TODO: handle exception
 	}     
@@ -569,18 +523,10 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
     MainPanel.add(jLabel1,                                                                                                                    new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 0, 5), 0, 0));
-//    MainPanel.add(jLabel9,                                                                                new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
-//            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
-//    MainPanel.add(edRoditel,                                                                                  new GridBagConstraints(1, 8, 3, 1, 0.0, 0.0
-//            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
     MainPanel.add(edIndication,                                                                                                                            new GridBagConstraints(0, 2, 3, 1, 0.6, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 15, 5, 0), 0, 0));
     MainPanel.add(jLabel26,                                                                                                                      new GridBagConstraints(0, 10, 2, 1, 0.0, 1.0
             ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-//    MainPanel.add(LCodeDSE,                                                                                    new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
-//            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 5, 5), 0, 0));
-//    MainPanel.add(edCodeDSE,                                                                                       new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0
-//            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 5), 0, 0));
     MainPanel.add(jLabel21,                                                                                                                new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 5, 5, 0), 0, 0));
     MainPanel.add(edNameFull,                                                                                                             new GridBagConstraints(1, 3, 5, 1, 0.0, 0.0
@@ -665,8 +611,6 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     panelHead.setLayout(borderLayoutHead);
     panelHead.add(LHeader, BorderLayout.CENTER);
     panelHead.add(vrtLogo, BorderLayout.EAST);
-    //this.add(LHeader,  BorderLayout.NORTH);
-    //this.add(vrtLogo,  BorderLayout.);
     this.add(panelHead, BorderLayout.NORTH);
     this.add(TabbedPane,  BorderLayout.CENTER);
     bgMat.add(rbMat);
@@ -878,14 +822,9 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     {
       boolean bFromModel = chbFromModel.isSelected();
       double Massa;
-      //String sMassa;
       edMassa.setEnabled(!bFromModel);
       Massa = bFromModel? data.getMassFromModel() : data.massa;
-      //sMassa = Double.toString(Massa);
-      //edMassa.setText(sMassa);
       edMassa.setText(  LUtil.float2string(Massa, 6) );
     }
   }
-
-
 }

@@ -26,14 +26,7 @@ import com.teamcenter.rac.stylesheet.*;
 
 public class H47StandartIzdRevForm extends AbstractRendering {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8850259267931438347L;
-
-	/**
-	 * 
-	 */
+	private static final long serialVersionUID = 4714852363863048902L;
 
 	// Registry R = Registry.getRegistry("com.LANIT.forms.L-forms");
 	NameResolver NR = new NameResolver();

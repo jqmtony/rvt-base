@@ -152,6 +152,8 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
   LOVComboBox cbOtdel = new LOVComboBox();
   JTextField edChangeNotice = new JTextField();
   JLabel jLabelIzv = new JLabel();
+  private JLabel vrtLogo = new JLabel();
+  BorderLayout borderLayoutHead = new BorderLayout();
 
   public SbEdRevPanel() {
     try {
@@ -176,7 +178,11 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
   public void renderData()
   {
     // Отображаемое поле
-    edType.setText(data.item.getType());
+    //edType.setText(data.item.getType());
+	// vertol, так как item может быть не определен при создании нового объекта  
+	  if (data.item != null) {  
+		edType.setText(data.item.getType());
+	}	
     edIndication.setText(data.indication);
     edNameFull.setText(data.name_dse);
     edRev.setText(data.revision);
@@ -216,7 +222,10 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
     chbVR18.setSelected(data.vr18);
     edVR18_Note.setText(data.vr18_note);
  */
-    TCSession session = (TCSession)data.item.getSession();
+    //TCSession session = (TCSession)data.item.getSession();
+    // vertol так как item может быть не определен
+    TCSession session = data.item != null ? (TCSession) data.item.getSession()
+			: (TCSession) data.form.getSession();
 
     cbCreator.setLOVComponent(session, "User Names");
     cbCreator.setSelectedItem(data.creator);  dateCreator.setDate(data.date_create);
@@ -398,6 +407,16 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    LHeader.setHorizontalAlignment(SwingConstants.CENTER);
 	    LHeader.setHorizontalTextPosition(SwingConstants.CENTER);
 	    LHeader.setText("Модификация изделия << Сб. единица >>");
+	    vrtLogo.setText("");
+		try {
+			vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader()
+					.getResource(FormConsts.sVertolLogo)));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		vrtLogo.setAlignmentX((float) 0.5);
+		vrtLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		vrtLogo.setHorizontalTextPosition(SwingConstants.CENTER);
 	    MainPanel.setMinimumSize(new Dimension(400, 320));
 	    MainPanel.setPreferredSize(new Dimension(400, 320));
 	    jpVR.setMinimumSize(new Dimension(110, 400));
@@ -700,7 +719,14 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    TabbedPane.add(MainPanel, "Общие данные");
 
 
-	    this.add(LHeader,  BorderLayout.NORTH);
+	    //this.add(LHeader,  BorderLayout.NORTH);
+	    // vertol
+	    JPanel panelHead = new JPanel();
+		panelHead.setLayout(borderLayoutHead);
+		panelHead.add(LHeader, BorderLayout.CENTER);
+		panelHead.add(vrtLogo, BorderLayout.EAST);
+		this.add(panelHead, BorderLayout.NORTH);
+	    
 	    this.add(TabbedPane,  BorderLayout.CENTER);
 
 	    jpSignOffs.add(cbCreator,               new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0

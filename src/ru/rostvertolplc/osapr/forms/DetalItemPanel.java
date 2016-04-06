@@ -37,6 +37,7 @@ public class DetalItemPanel extends JPanel implements InterfaceFormPanel, ItemLi
   JComboBox cbIzd = new JComboBox();
   JLabel jLabel9 = new JLabel();
   JLabel LNotSaved = new JLabel();
+  private JLabel vrtLogo = new JLabel();
 
   public DetalItemPanel() {
     try {
@@ -129,7 +130,7 @@ public class DetalItemPanel extends JPanel implements InterfaceFormPanel, ItemLi
     edFirstUse.setMinimumSize(new Dimension(20, 21));
     jLabel5.setText("Обозначение");
     LHeader.setFont(new java.awt.Font("Dialog", 1, 14));
-    LHeader.setText("Деталь");
+    LHeader.setText("Детамь :-)");
     jLabel2.setText("Первичная применяемость");
     jLabel3.setText("Справочный номер");
     edSpravNo.setMinimumSize(new Dimension(20, 21));
@@ -137,6 +138,15 @@ public class DetalItemPanel extends JPanel implements InterfaceFormPanel, ItemLi
     edIndication.setMinimumSize(new Dimension(250, 21));
     edIndication.setPreferredSize(new Dimension(250, 21));
     jLabel16.setText("Наименование");
+    
+    vrtLogo.setText("");
+	try {
+		vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader()
+				.getResource(FormConsts.sVertolLogo)));
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+    
     edName.setPreferredSize(new Dimension(250, 21));
     edName.setMinimumSize(new Dimension(250, 21));
     edName.setMaximumSize(new Dimension(300, 21));
@@ -170,8 +180,17 @@ public class DetalItemPanel extends JPanel implements InterfaceFormPanel, ItemLi
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
     this.add(jLabel2,                                    new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 5, 5), 0, 0));
+    
+    /*---original
     this.add(LHeader,                                    new GridBagConstraints(0, 0, 4, 1, 0.0, 0.0
             ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 15, 5), 0, 0));
+    */
+    this.add(LHeader,                                    new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0
+            ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 15, 5), 0, 0));
+    this.add(vrtLogo,                                    new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+            ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 15, 5), 0, 0));
+    
+    
     this.add(jLabel3,                      new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
             ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
     this.add(edIndication,                                 new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0

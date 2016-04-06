@@ -3,27 +3,20 @@ package ru.rostvertolplc.osapr.forms;
 import ru.rostvertolplc.osapr.util.TextFieldDocument;
 import com.teamcenter.rac.util.MessageBox;
 import java.awt.*;
-
 import javax.swing.*;
-
 import com.teamcenter.rac.form.label.*;
-import java.awt.event.*;
 import com.teamcenter.rac.form.lovcombobox.*;
-import ru.rostvertolplc.osapr.util.LUtil;
-import java.util.Vector;
-import com.teamcenter.rac.kernel.*;
 
 public class StdItemPanel extends JPanel implements InterfaceFormPanel {
-	DSEUserData data = null;
-	// Registry R = Registry.getRegistry("com.avid.forms.forms");
 
+	private static final long serialVersionUID = -2409929034553572505L;
+	DSEUserData data = null;
 	private JLabel LHeader = new JLabel();
 	private GridBagLayout gridBagLayout1 = new GridBagLayout();
 	private JLabel jLabel2 = new JLabel();
 	private JLabel jLabel5 = new JLabel();
 	private JLabel jLabel3 = new JLabel();
 	private JLabel jLabel16 = new JLabel();
-	private BorderLayout borderLayoutHead = new BorderLayout();
 	private JTextField edIndication = new TextFieldDocument(128);
 	private JTextField edName = new TextFieldDocument(256);
 	private JTextField edFirstUse = new TextFieldDocument(128);
@@ -63,31 +56,20 @@ public class StdItemPanel extends JPanel implements InterfaceFormPanel {
 		if (data.bNewName)
 			edName.setForeground(Color.GRAY);
 		LNotSaved.setVisible(data.sc == null);
-
 		edIndication.setText(data.indication);
 		edName.setText(data.name_dse);
 		edSpravNo.setText(data.sprav_dse);
 		edFirstUse.setText(data.first_use);
 		edGOST.setText(data.gost);
-		// Списки
-		// LUtil.fillComboBoxLOV(cbIzdelie, data.lov_izdelie);
-		// cbIzdelie.setSelectedItem(data.izdelie);
-
 		kod_dse.setText(data.code_dse);
-		// edDSEKey.setText(data.dse_key);
-
 	}
 
 	public void saveToUserData() {
-		// String sObj=null;
-		// int len;
 		try {
 			data.indication = edIndication.getText();
 			data.name_dse = edName.getText();
 			data.sprav_dse = edSpravNo.getText();
 			data.first_use = edFirstUse.getText();
-			// data.otvetstv = cbIzdelie.getSelectedItem()==null ? "" :
-			// cbIzdelie.getSelectedItem().toString();
 			data.gost = edGOST.getText();
 		} catch (Exception ex) {
 			MessageBox.post(ex);
@@ -107,7 +89,7 @@ public class StdItemPanel extends JPanel implements InterfaceFormPanel {
 		vrtLogo.setText("");
 		try {
 			vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader()
-					.getResource("resources/images/rostvertol.png")));
+					.getResource(FormConsts.sVertolLogo)));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -154,30 +136,16 @@ public class StdItemPanel extends JPanel implements InterfaceFormPanel {
 		this.add(jLabel2, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,
 						15, 0, 5), 0, 0));
-
-		/*
-		 * JPanel panelHead = new JPanel();
-		 * panelHead.setLayout(borderLayoutHead); panelHead.add(LHeader,
-		 * BorderLayout.CENTER); panelHead.add(vrtLogo, BorderLayout.EAST);
-		 */
-
 		/*original----
 		 * this.add(LHeader, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(
-						0, 0, 15, 5), 0, 0));*/
-		
+						0, 0, 15, 5), 0, 0));*/	
 		this.add(LHeader, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(
 						0, 0, 15, 8), 0, 0));
 		this.add(vrtLogo, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(
 						0, 0, 15, 0), 0, 0));
-		/*
-		 * this.add(panelHead, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0,
-		 * GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets( 0, 0,
-		 * 15, 5), 0, 0));
-		 */
-
 		this.add(jLabel16, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,
 						15, 5, 5), 0, 0));
@@ -211,11 +179,5 @@ public class StdItemPanel extends JPanel implements InterfaceFormPanel {
 		this.add(LNotSaved, new GridBagConstraints(1, 7, 2, 1, 0.0, 0.0,
 				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
 				new Insets(30, 0, 0, 0), 0, 0));
-		// this.add(LDSEKey, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
-		// ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 15,
-		// 0, 5), 0, 0));
-		// this.add(edDSEKey, new GridBagConstraints(1, 7, 2, 1, 0.0, 0.0
-		// ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new
-		// Insets(0, 5, 0, 10), 0, 0));
 	}
 }
