@@ -53,8 +53,7 @@ public class DocItemPanel extends JPanel implements InterfaceFormPanel// ,
 		edIndication.setText(data.indication);
 		edName.setText(data.name_dse);
 		LNotSaved.setVisible(data.sc == null);
-		cbDocType.setLOVComponent((TCSession) data.item.getSession(),
-				NR.lov_KODDOC);
+		cbDocType.setLOVComponent(NR.lov_KODDOC);
 		cbDocType.setText(data.type_doc);
 	}
 

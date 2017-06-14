@@ -141,10 +141,10 @@ public class DocRevPanel extends JPanel implements InterfaceFormPanel {
 		TCSession session = data.item != null ? (TCSession) data.item.getSession()
 				: (TCSession) data.form.getSession();
 
-		cbCreator.setLOVComponent(session, "User Names");
+		cbCreator.setLOVComponent("User Names");
 		cbCreator.setSelectedItem(data.creator);
 		dateCreator.setDate(data.date_create);
-		cbOtdel.setLOVComponent(session, "Group Names");
+		cbOtdel.setLOVComponent("Group Names");
 		cbOtdel.setSelectedItem(data.otvetstv);
 
 		// edCreator.setText(data.creator);
@@ -502,7 +502,7 @@ public class DocRevPanel extends JPanel implements InterfaceFormPanel {
 		panelHead.add(LHeader, BorderLayout.CENTER);
 		panelHead.add(vrtLogo, BorderLayout.EAST);
 		this.add(panelHead, BorderLayout.NORTH);
-		
+
 		this.add(TabbedPane, BorderLayout.CENTER);
 		jpSignOffs.add(LCreator, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,

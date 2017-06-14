@@ -14,6 +14,7 @@ import com.teamcenter.rac.kernel.*;
 import com.teamcenter.rac.util.*; //import com.LANIT.extmaterial.*;
 
 import com.teamcenter.rac.common.lov.*; //import com.teamcenter.rac.form.lovcombobox.*;
+import com.teamcenter.rac.common.lov.view.components.LOVDisplayer;
 //import com.teamcenter.rac.form.datebutton.*;
 //import com.teamcenter.rac.kernel.TCUserService;
 
@@ -33,7 +34,7 @@ import ru.rostvertolplc.osapr.regbook.*;
  */
 public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 499452610402566806L;
 	DSEUserData data = null;
@@ -57,7 +58,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	private TextFieldDocument edNDMark = new TextFieldDocument(64);
 	private TextFieldDocument edVidZagot = new TextFieldDocument(128);
 	private TextFieldDocument edIndication = new TextFieldDocument(128);
-	JComboBox cbLiter1 = new JComboBox();
+	JComboBox<String> cbLiter1 = new JComboBox<String>();
 	JLabel LMat3 = new JLabel();
 	JLabel LMat4 = new JLabel();
 	JTabbedPane TabbedPane = new JTabbedPane();
@@ -109,7 +110,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	private JTextField edCreator = new JTextField();
 	private TitledBorder titledBorder5;
 	private JLabel jLabel23 = new JLabel();
-	private JComboBox cbFormat = new JComboBox();
+	private JComboBox<String> cbFormat = new JComboBox<String>();
 	private JLabel jLabel24 = new JLabel();
 	private TextFieldDocument edN_Izv = new TextFieldDocument(32);
 	private JLabel jLabel3 = new JLabel();
@@ -121,9 +122,9 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	private JLabel jLabel25 = new JLabel();
 	JLabel jLabel27 = new JLabel();
 	JLabel jLabel28 = new JLabel();
-	JComboBox cbNameProc = new JComboBox();
+	JComboBox<String> cbNameProc = new JComboBox<String>();
 	JLabel jLabel30 = new JLabel();
-	JComboBox cbCexa = new JComboBox();
+	JComboBox<String> cbCexa = new JComboBox<String>();
 	JLabel jLabel29 = new JLabel();
 	JPanel jpRascex = new JPanel();
 	JLabel jLabel32 = new JLabel();
@@ -146,10 +147,10 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	TextAreaDocument edVR3_Note = new TextAreaDocument(256);
 	JLabel LDateVnedr = new JLabel();
 	DateButton dateVnedrII = new DateButton();
-	JComboBox cbLiter2 = new JComboBox();
-	JComboBox cbLiter3 = new JComboBox();
+	JComboBox<String> cbLiter2 = new JComboBox<String>();
+	JComboBox<String> cbLiter3 = new JComboBox<String>();
 	JLabel LTypeIzgot = new JLabel();
-	JComboBox cbTypeIzgot = new JComboBox();
+	JComboBox<String> cbTypeIzgot = new JComboBox<String>();
 	JLabel LVR10_Note = new JLabel();
 	JCheckBox chbVR10 = new JCheckBox();
 	JScrollPane spVR10 = new JScrollPane();
@@ -161,6 +162,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	JLabel jLabel2 = new JLabel();
 	JCheckBox chbOsobo = new JCheckBox();
 	LOVComboBox cbConsGroup = new LOVComboBox();
+	//LOVDisplayer cbConsGroup = null;
 	JRadioButton rbZagot = new JRadioButton();
 	JRadioButton rbMat = new JRadioButton();
 	JLabel jLabel7 = new JLabel();
@@ -213,7 +215,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 	public DetalRevPanel(DSEUserData theData) {
 		data = theData;
 		try {
-			System.out.println("DetalRevPanel");		
+			System.out.println("DetalRevPanel");
 			jbInit();
 			renderData();
 
@@ -308,7 +310,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		 * edVR18_Note.setText(data.vr18_note);
 		 * //edVR10_TechPas.setText(data.vr10_tex_pas);
 		 * chbVR10.setSelected(data.vr10); edVR10_Note.setText(data.vr10_note);
-		 * 
+		 *
 		 * edMarkPlace.setText(data.vr7_mesto);
 		 * edVR6_Note.setText(data.vr6_note);
 		 */
@@ -319,10 +321,10 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		session = data.item != null ? (TCSession) data.item.getSession()
 				: (TCSession) data.form.getSession();
 
-		cbCreator.setLOVComponent(session, "User Names");
+		cbCreator.setLOVComponent("User Names");
 		cbCreator.setSelectedItem(data.creator);
 		dateCreator.setDate(data.date_create);
-		cbOtdel.setLOVComponent(session, "Group Names");
+		cbOtdel.setLOVComponent("Group Names");
 		cbOtdel.setSelectedItem(data.otvetstv);
 
 		// edCreator.setText(data.creator);
@@ -348,11 +350,11 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		cbLiter1.setSelectedItem(data.liter1);
 		// Конструктивная группа
 		// LUtil.fillComboBoxLOV(cbConsGroup, data.lov_consgroup);
-		cbConsGroup.setLOVComponent(session, data.NR.lov_CONSGROUP);
+		cbConsGroup.setLOVComponent(data.NR.lov_CONSGROUP);
 
 		cbConsGroup.setSelectedItem(data.cons_group);
 		// Базовая CAD-система
-		cbCAD.setLOVComponent(session, data.NR.lov_CADSYS);
+		cbCAD.setLOVComponent(data.NR.lov_CADSYS);
 		cbCAD.setSelectedItem(data.cad_sys);
 
 		// Формат
@@ -367,7 +369,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		 * LUtil.fillComboBoxLOV(cbLiter3, data.lov_liter);
 		 * cbLiter2.setSelectedItem(data.liter2);
 		 * cbLiter3.setSelectedItem(data.liter3);
-		 * 
+		 *
 		 * // Содержание маркировки cbSoderMark.addItem(""); for (int i=0;
 		 * i<data.lov_sodermark.length; i++) {
 		 * cbSoderMark.addItem(data.lov_sodermark[i]); }
@@ -1240,7 +1242,7 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		 * 5, 5, 20), 0, 0)); jpRascex.add(jLabel32, new GridBagConstraints(0,
 		 * 3, 1, 1, 0.0, 1.0 ,GridBagConstraints.CENTER,
 		 * GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		 * 
+		 *
 		 * //TabbedPane.add(jpVR, "Ведомости"); jpVR18.add(chbVR18, new
 		 * GridBagConstraints(0, 0, 2, 1, 0.0, 0.0 ,GridBagConstraints.WEST,
 		 * GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -1322,25 +1324,25 @@ public class DetalRevPanel extends JPanel implements InterfaceFormPanel {
 		 * AIFClipboard clipboard = AIFPortal.getClipboard(); Transferable
 		 * content = clipboard.getContents ( this ); if ( content == null )
 		 * return;
-		 * 
+		 *
 		 * Vector childComponents = new Vector(); try { childComponents =
 		 * (Vector)content.getTransferData ( new DataFlavor ( Vector.class,
 		 * "AIF Vector" ) ); } catch ( Exception ex ) { MessageBox.post ( ex );
 		 * return; }
-		 * 
+		 *
 		 * TCComponent childComponent = (TCComponent)childComponents.get(0);
 		 * TCComponentItem item=null; TCComponentItemRevision ir=null;
-		 * 
+		 *
 		 * try{ if (childComponent instanceof TCComponentItem) {
 		 * item=(TCComponentItem)childComponent; // TCComponent components[] =
 		 * item.getTCProperty("revision_list").getReferenceValueArray(); // if
 		 * (components!=null) ir = (TCComponentItemRevision)components[0];
-		 * 
+		 *
 		 * // ir = item.getLatestItemRevision(); } if (childComponent instanceof
 		 * TCComponentItemRevision) {
 		 * ir=(TCComponentItemRevision)childComponent; item=ir.getItem(); } }
 		 * catch ( Exception ex ) { ex.printStackTrace(); }
-		 * 
+		 *
 		 * // String s = ""; try{ TCComponentForm
 		 * form=(TCComponentForm)item.getRelatedComponent("IMAN_master_form");
 		 * if (item.getType().equals("Материал")) { if

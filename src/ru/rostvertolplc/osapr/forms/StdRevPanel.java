@@ -21,7 +21,7 @@ import ru.rostvertolplc.osapr.regbook.*;
 public class StdRevPanel extends JPanel implements InterfaceFormPanel
 {
   private static final long serialVersionUID = 8026480773494394467L;
-  NameResolver NR = new NameResolver(); 
+  NameResolver NR = new NameResolver();
   DSEUserData data = null;
   public JLabel LHeader = new JLabel();
   FloatVerifier floatVerifier = new FloatVerifier();
@@ -78,7 +78,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   private DateButton dateChange = new DateButton();
   private JLabel jLabel24 = new JLabel();
   private TextFieldDocument edN_Izv = new TextFieldDocument(32);
-  private JLabel vrtLogo = new JLabel();  
+  private JLabel vrtLogo = new JLabel();
   JCheckBox chbFromModel = new JCheckBox();
   JLabel jLabel8 = new JLabel();
   JTextField edType = new JTextField();
@@ -122,11 +122,11 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
 
   public StdRevPanel(DSEUserData theData) {
     data = theData;
-    try {    	
-      // vertol так как item может быть не определен	
-      session = data.item != null ? (TCSession)data.item.getSession() : (TCSession)data.form.getSession();   	     
+    try {
+      // vertol так как item может быть не определен
+      session = data.item != null ? (TCSession)data.item.getSession() : (TCSession)data.form.getSession();
       jbInit();
-      renderData();   
+      renderData();
     }
     catch(Exception e) {
       e.printStackTrace();
@@ -152,10 +152,10 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
   public void renderData()
   {
     // Отображаемое поле
-	// vertol, так как item может быть не определен при создании нового объекта  
-	  if (data.item != null) {  
+	// vertol, так как item может быть не определен при создании нового объекта
+	  if (data.item != null) {
 		edType.setText(data.item.getType());
-	}	
+	}
     edCodeDSE.setText(data.code_dse);
     edIndication.setText(data.indication);
     edNameFull.setText(data.name_dse);
@@ -174,7 +174,7 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     edNameMat.setText( data.material );
     edMatShifr.setText(data.mater_shifr);
    // Базовая CAD-система
-   cbCAD.setLOVComponent(session, data.NR.lov_CADSYS);
+   cbCAD.setLOVComponent(data.NR.lov_CADSYS);
    cbCAD.setSelectedItem(data.cad_sys);
    // Литера
    try
@@ -305,13 +305,13 @@ public class StdRevPanel extends JPanel implements InterfaceFormPanel
     LHeader.setAlignmentX((float) 0.5);
     LHeader.setHorizontalAlignment(SwingConstants.CENTER);
     LHeader.setHorizontalTextPosition(SwingConstants.CENTER);
-    LHeader.setText("Стандартное изделие - Модификация");        
+    LHeader.setText("Стандартное изделие - Модификация");
     vrtLogo.setText("");
     try {
 		vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource(FormConsts.sVertolLogo)));
 	} catch (Exception e) {
 		// TODO: handle exception
-	}     
+	}
 	vrtLogo.setAlignmentX((float) 0.5);
     vrtLogo.setHorizontalAlignment(SwingConstants.CENTER);
     vrtLogo.setHorizontalTextPosition(SwingConstants.CENTER);

@@ -29,7 +29,7 @@ import javax.swing.border.TitledBorder;
 import ru.rostvertolplc.osapr.util.LUtil;
 import ru.rostvertolplc.osapr.util.TextFieldDocument;
 import com.teamcenter.rac.commands.newitem.ItemRevMasterFormPanel;
-import com.teamcenter.rac.commands.newitem.NewItemPanel;
+//import com.teamcenter.rac.commands.newitem.NewItemPanel;
 import com.teamcenter.rac.common.lov.LOVComboBox;
 import com.teamcenter.rac.kernel.TCComponent;
 import com.teamcenter.rac.kernel.TCComponentDataset;
@@ -43,6 +43,7 @@ import com.teamcenter.rac.kernel.TCProperty;
 import com.teamcenter.rac.kernel.TCSession;
 import com.teamcenter.rac.stylesheet.AbstractRendering;
 import com.teamcenter.rac.util.DateButton;
+import com.teamcenter.rac.commands.newitem.AbstractNewItemPanel;
 
 public class DocRevPanelKol extends AbstractRendering {
 	private static final long serialVersionUID = 3313029869567370366L;
@@ -60,9 +61,6 @@ public class DocRevPanelKol extends AbstractRendering {
 		loadRendering();
 	}
 
-	//DSEUserData data = null;
-	// Registry R = Registry.getRegistry("com.avid.forms.forms");
-
 	public JLabel LHeader = new JLabel();
 	TCSession session;
 	private JLabel LTrud = new JLabel();
@@ -71,7 +69,7 @@ public class DocRevPanelKol extends AbstractRendering {
 	private JLabel jLabel10 = new JLabel();
 	private JTextField dateCreate = new JTextField();
 	private JTextField edIndication = new TextFieldDocument(128);
-	JComboBox cbLiter1 = new JComboBox();
+	JComboBox<String> cbLiter1 = new JComboBox<String>();
 	JTabbedPane TabbedPane = new JTabbedPane();
 	JPanel MainPanel = new JPanel();
 	GridBagLayout gridBagLayout3 = new GridBagLayout();
@@ -87,7 +85,6 @@ public class DocRevPanelKol extends AbstractRendering {
 	private JTextField edTrud = new TextFieldDocument(10);
 	private JLabel jLabel110 = new JLabel();
 	private DateButton dateChange = new DateButton();
-	// private TitledBorder titledBorder1;
 	private JLabel LReviewer = new JLabel();
 	private JPanel jpSignOffs = new JPanel();
 	private DateButton dateNK = new DateButton();
@@ -110,16 +107,14 @@ public class DocRevPanelKol extends AbstractRendering {
 	public JTextField edKolListov = new JTextField();
 	private DateButton dateNachOtd = new DateButton();
 	private JTextField edApprover = new JTextField();
-	// private JTextField edCreator = new JTextField();
-	// private TitledBorder titledBorder5;
 	private JLabel jLabel23 = new JLabel();
-	private JComboBox cbFormat = new JComboBox();
+	private JComboBox<String> cbFormat = new JComboBox<String>();
 	private JLabel jLabel24 = new JLabel();
 	private JTextField edN_Izv = new TextFieldDocument(32);
 	private JTextField edFormat = new TextFieldDocument(20);
 	private JButton btClrFmt = new JButton();
-	JComboBox cbLiter2 = new JComboBox();
-	JComboBox cbLiter3 = new JComboBox();
+	JComboBox<String> cbLiter2 = new JComboBox<String>();
+	JComboBox<String> cbLiter3 = new JComboBox<String>();
 	JLabel jLabel8 = new JLabel();
 	JTextField edType = new JTextField();
 	JTextField edRev = new JTextField();
@@ -198,11 +193,11 @@ public class DocRevPanelKol extends AbstractRendering {
 
 	}
 
-	
+
 
 	public String getKolich() {
 		return edKolListov.getText();
-	}   	
+	}
 
 	public void setHeader(String s) {
 		LHeader.setText(s);
@@ -241,7 +236,7 @@ public class DocRevPanelKol extends AbstractRendering {
 			vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader().getResource(FormConsts.sVertolLogo)));
 		} catch (Exception e) {
 			// TODO: handle exception
-		}     
+		}
 		vrtLogo.setAlignmentX((float) 0.5);
 	    vrtLogo.setHorizontalAlignment(SwingConstants.CENTER);
 	    vrtLogo.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -489,7 +484,7 @@ public class DocRevPanelKol extends AbstractRendering {
 		// jpSignOffs.add(jLabel12, new GridBagConstraints(0, 6, 2, 1, 0.0, 0.0
 		// ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(20,
 		// 0, 5, 0), 0, 0));
-		TabbedPane.add(jpSignOffs, "–ü–æ–¥–ø–∏—Å–∏");
+		TabbedPane.add(jpSignOffs, "œÓ‰ÔËÒË");
 		jpSignOffs.add(LNormo, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,
 						5, 0, 0), 0, 0));
@@ -590,7 +585,7 @@ public class DocRevPanelKol extends AbstractRendering {
 				item_form = (TCComponentForm) item
 						.getRelatedComponent("IMAN_master_form");
 
-			cbCreator.setLOVComponent(session, "User Names");
+			cbCreator.setLOVComponent("User Names");
 
 			// edIndication.setText("edCodeDSE");
 			// edCodeDSE.setText(rev_form.getStringProperty(NR.fld_DSE_CODE));
@@ -633,7 +628,7 @@ public class DocRevPanelKol extends AbstractRendering {
 			Date date_create = LUtil.String2Date(strArray[1]);
 			cbCreator.setSelectedItem(creator);
 			dateCreator.setDate(date_create);
-			cbOtdel.setLOVComponent(session, "Group Names");
+			cbOtdel.setLOVComponent("Group Names");
 			cbOtdel.setSelectedItem(rev_form.getStringProperty(NR.fld_OTDEL));
 
 			strArray = LUtil.parse2Array((String) rev_form
@@ -714,16 +709,16 @@ public class DocRevPanelKol extends AbstractRendering {
 						.getParent();
 				// TCComponentForm s_rev_form =
 				// (TCComponentForm)irmfp1.itemRevMasterForm;
-				NewItemPanel itemPanel1 = (NewItemPanel) irmfp1.controlWizardPanel;
-				item = (TCComponentItem) itemPanel1.newComponent;
-				if (item == null) 
+				//**NewItemPanel itemPanel1 = (NewItemPanel) irmfp1.controlWizardPanel;
+				item = (TCComponentItem) ((AbstractNewItemPanel) irmfp1.controlWizardPanel).newComponent;
+				if (item == null)
 					rev_form = (TCComponentForm) this.component;
 				 else {
 					try {
 						item_rev = item.getLatestItemRevision();
 					} catch (Exception e) {
-						// TODO: 
-					}					
+						// TODO:
+					}
 					if (item_rev != null) {
 						try {
 							rev_form = (TCComponentForm)item_rev
@@ -734,7 +729,7 @@ public class DocRevPanelKol extends AbstractRendering {
 					}
 				}
 			}
-			doSave(rev_form);			
+			doSave(rev_form);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

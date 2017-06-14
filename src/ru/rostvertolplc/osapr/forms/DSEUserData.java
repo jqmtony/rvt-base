@@ -135,13 +135,13 @@ public class DSEUserData
   String[] lov_cexa =null;
   String[] lov_pki =null;
   String[] lov_izdelie =null;
-  String[] saTypeIzgot = {"","РЎРѕР±СЃС‚РІРµРЅРЅРѕРµ","РџРѕРєСѓРїРЅРѕРµ"};
+  String[] saTypeIzgot = {"","Собственное","Покупное"};
   String diametr = "";
 
   double getMassFromModel()
   {
 
-    // -- РћРїСЂРµРґРµР»РёС‚СЊ РјР°СЃСЃСѓ РёР· РјРѕРґРµР»Рё (РёРјРµРЅРѕРІР°РЅРЅР°СЏ СЃСЃС‹Р»РєР° UGPART-MASSPR) --
+    // -- Определить массу из модели (именованная ссылка UGPART-MASSPR) --
     double Result = 0;
     try
     {
@@ -160,7 +160,7 @@ public class DSEUserData
       TCComponentForm form = (TCComponentForm) comps[0];
       Result = form.getFormTCProperty("mass").getDoubleValue();
     }
-    catch (TCException ex)
+    catch (Exception ex)
     {
       Result = 0;
     }

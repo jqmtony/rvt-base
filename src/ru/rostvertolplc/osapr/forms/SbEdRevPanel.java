@@ -11,6 +11,7 @@ import javax.swing.text.*;
 import ru.rostvertolplc.osapr.util.*;
 import com.teamcenter.rac.util.*;
 import com.teamcenter.rac.common.lov.*;
+//import com.teamcenter.rac.common.lov.view.components.LOVDisplayer;
 import com.teamcenter.rac.kernel.*;
 
 
@@ -18,6 +19,8 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 {
   DSEUserData data = null;
   //Registry R = Registry.getRegistry("com.avid.forms.forms");
+
+  NameResolver NR = new NameResolver();
 
   public JLabel LHeader = new JLabel();
   FloatVerifier floatVerifier = new FloatVerifier();
@@ -149,7 +152,8 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
   JLabel LApprover3 = new JLabel();
   DateButton dateNachBrig = new DateButton();
   JLabel jLabel111 = new JLabel();
-  LOVComboBox cbOtdel = new LOVComboBox();
+  //LOVComboBox cbOtdel = new LOVComboBox();
+  JComboBox cbOtdel = new JComboBox();
   JTextField edChangeNotice = new JTextField();
   JLabel jLabelIzv = new JLabel();
   private JLabel vrtLogo = new JLabel();
@@ -177,18 +181,18 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 
   public void renderData()
   {
-    // РћС‚РѕР±СЂР°Р¶Р°РµРјРѕРµ РїРѕР»Рµ
+    // Отображаемое поле
     //edType.setText(data.item.getType());
-	// vertol, С‚Р°Рє РєР°Рє item РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµ РѕРїСЂРµРґРµР»РµРЅ РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ РѕР±СЉРµРєС‚Р°  
-	  if (data.item != null) {  
+	// vertol, так как item может быть не определен при создании нового объекта
+	  if (data.item != null) {
 		edType.setText(data.item.getType());
-	}	
+	}
     edIndication.setText(data.indication);
     edNameFull.setText(data.name_dse);
     edRev.setText(data.revision);
     LNotSaved.setVisible(data.sc==null);
     edChangeNotice.setText(data.changeNotice);
-    // Р РµР°Р»СЊРЅС‹Рµ РїРѕР»СЏ
+    // Реальные поля
     edRoditel.setText(data.roditel);
     dateCreate.setText(LUtil.Date2String(data.date_create_obj));
     dateChange.setDate(data.change_date);
@@ -223,13 +227,20 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
     edVR18_Note.setText(data.vr18_note);
  */
     //TCSession session = (TCSession)data.item.getSession();
-    // vertol С‚Р°Рє РєР°Рє item РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµ РѕРїСЂРµРґРµР»РµРЅ
+    // vertol так как item может быть не определен
     TCSession session = data.item != null ? (TCSession) data.item.getSession()
 			: (TCSession) data.form.getSession();
 
-    cbCreator.setLOVComponent(session, "User Names");
+    cbCreator.setLOVComponent("User Names");
     cbCreator.setSelectedItem(data.creator);  dateCreator.setDate(data.date_create);
-    cbOtdel.setLOVComponent(session, "Group Names");
+    //session.getTypeComponent("")
+
+
+
+
+    //cbOtdel.setLOVComponent("Group Names");
+
+    //LUtil.fillComboBoxLOV2(cbOtdel, LUtil.getLOVStrings("Group Names"));
     cbOtdel.setSelectedItem(data.otvetstv);
 
     //edCreator.setText(data.creator);        dateCreator.setDate(data.date_create);
@@ -244,7 +255,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
     for (int i=0; i<data.viza.length; i++)
       edAdditional.append(data.viza[i]+"\n");
 */
-    // Р›РёС‚РµСЂР°
+    // Литера
     LUtil.fillComboBoxLOV(cbLiter1, data.lov_liter);
     LUtil.fillComboBoxLOV(cbLiter2, data.lov_liter);
     LUtil.fillComboBoxLOV(cbLiter3, data.lov_liter);
@@ -252,28 +263,28 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
     cbLiter2.setSelectedItem(data.liter2);
     cbLiter3.setSelectedItem(data.liter3);
 
-    // РљРѕРЅСЃС‚СЂСѓРєС‚РёРІРЅР°СЏ РіСЂСѓРїРїР°
+    // Конструктивная группа
     //LUtil.fillComboBoxLOV(cbConsGroup, data.lov_consgroup);
-    cbConsGroup.setLOVComponent(session, data.NR.lov_CONSGROUP);
+    cbConsGroup.setLOVComponent(data.NR.lov_CONSGROUP);
     cbConsGroup.setSelectedItem(data.cons_group);
-    // Р‘Р°Р·РѕРІР°СЏ CAD-СЃРёСЃС‚РµРјР°
-    cbCAD.setLOVComponent(session, data.NR.lov_CADSYS);
+    // Базовая CAD-система
+    cbCAD.setLOVComponent(data.NR.lov_CADSYS);
     cbCAD.setSelectedItem(data.cad_sys);
 /*
-    // РЎРѕРґРµСЂР¶Р°РЅРёРµ РјР°СЂРєРёСЂРѕРІРєРё
+    // Содержание маркировки
     cbSoderMark.addItem("");
     for (int i=0; i<data.lov_sodermark.length; i++) {  cbSoderMark.addItem(data.lov_sodermark[i]); }
     cbSoderMark.setSelectedItem(data.vr7_sod_mark);
-    // РЎРїРѕСЃРѕР± РЅР°РЅРµСЃРµРЅРёСЏ РјР°СЂРєРёСЂРѕРІРєРё
+    // Способ нанесения маркировки
     cbSposobMark.addItem("");
     for (int i=0; i<data.lov_sposobmark.length; i++) {  cbSposobMark.addItem(data.lov_sposobmark[i]); }
     cbSposobMark.setSelectedItem(data.vr7_spo_nanes);
 */
-    // Р¤РѕСЂРјР°С‚
+    // Формат
     LUtil.fillComboBoxLOV(cbFormat, data.lov_format);
 //    cbFormat.setSelectedItem(data.format);
     edFormat.setText(data.format);
-    // Р Р°СЃС†РµС…РѕРІРєР°
+    // Расцеховка
     LUtil.fillComboBoxLOV(cbCexa, data.lov_cexa);
     edRascex.setText(data.rascex);
   }
@@ -311,7 +322,9 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
       data.vr18_note = edVR18_Note.getText();
 */
       data.creator = LUtil.getSelectedStrCB(cbCreator);  data.date_create = dateCreator.getDate();
+//      data.otvetstv = cbOtdel.getSelectedDisplayValue();
       data.otvetstv = LUtil.getSelectedStrCB(cbOtdel);
+
 
       //data.creator = edCreator.getText();        data.date_create = dateCreator.getDate();
       data.reviewer = edReviewer.getText();      data.date_review = dateReview.getDate();
@@ -354,26 +367,25 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
   }
 
   private void jbInit() throws Exception {
-	  
-	
+
 	    border1 = BorderFactory.createEtchedBorder(Color.white,new Color(165, 163, 151));
-	    titledBorder1 = new TitledBorder(border1,"Р“Р°Р±Р°СЂРёС‚РЅС‹Рµ СЂР°Р·РјРµСЂС‹");
+	    titledBorder1 = new TitledBorder(border1,"Габаритные размеры");
 	    this.setLayout(borderLayout1);
-	    jLabel5.setText("РћР±РѕР·РЅР°С‡РµРЅРёРµ");
-	    jLabel1.setText("РќР°РёРјРµРЅРѕРІР°РЅРёРµ");
-	    LTrud.setText("РўСЂСѓРґРѕС‘РјРєРѕСЃС‚СЊ");
-	    jLabel9.setText("Р РѕРґРёС‚РµР»СЊ");
+	    jLabel5.setText("Обозначение");
+	    jLabel1.setText("Наименование");
+	    LTrud.setText("Трудоёмкость");
+	    jLabel9.setText("Родитель");
 	    edRoditel.setBackground(new Color(204, 204, 204));
 	    edRoditel.setMinimumSize(new Dimension(20, 21));
 	    edRoditel.setPreferredSize(new Dimension(100, 21));
 	    edRoditel.setColumns(64);
-	    jLabel10.setText("Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ");
+	    jLabel10.setText("Дата создания");
 	    dateCreate.setBorder(BorderFactory.createLineBorder(Color.black));
 	    dateCreate.setMinimumSize(new Dimension(120, 21));
 	    dateCreate.setPreferredSize(new Dimension(120, 21));
 	    dateCreate.setToolTipText("");
 	    dateCreate.setEditable(false);
-	    dateCreate.setText("< Р”Р°С‚Р° РЅРµ Р·Р°РґР°РЅР° >");
+	    dateCreate.setText("< Дата не задана >");
 	    dateCreate.setHorizontalAlignment(SwingConstants.CENTER);
 	    edIndication.setBackground(new Color(255, 217, 217));
 	    edIndication.setMaximumSize(new Dimension(400, 21));
@@ -385,28 +397,28 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    TabbedPane.setPreferredSize(new Dimension(500, 400));
 	    MainPanel.setLayout(gridBagLayout3);
 	    jpVR.setLayout(gridBagLayout6);
-	    jpVR18.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"Р’Р  18 - Р”РµС‚Р°Р»Рё РїРѕ РґРёСЂРµРєС‚РёРІРЅС‹Рј С‚РµС…РЅРѕР»РѕРіРёСЏРј"));
+	    jpVR18.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"ВР 18 - Детали по директивным технологиям"));
 	    jpVR18.setMinimumSize(new Dimension(100, 100));
 	    jpVR18.setPreferredSize(new Dimension(434, 100));
 	    jpVR18.setLayout(gridBagLayout5);
-	    jLabelIzv.setText("РР·РІРµС‰РµРЅРёРµ");
-	    jLabel19.setText("РњРµСЃС‚Рѕ РЅР°РЅРµСЃРµРЅРёСЏ РјР°СЂРєРёСЂРѕРІРєРё");
-	    jLabel20.setText("РЎРѕРґРµСЂР¶Р°РЅРёРµ РјР°СЂРєРёСЂРѕРІРєРё");
-	    chbVR18.setText("РџСЂРёР·РЅР°Рє РІС…РѕР¶РґРµРЅРёСЏ РІ Р’Р  18");
+	    jLabelIzv.setText("Извещение");
+	    jLabel19.setText("Место нанесения маркировки");
+	    jLabel20.setText("Содержание маркировки");
+	    chbVR18.setText("Признак вхождения в ВР 18");
 	    chbVR18.addChangeListener(new javax.swing.event.ChangeListener() {
 	      public void stateChanged(ChangeEvent e) {
 	        chbVR_stateChanged(e);
 	      }
 	    });
 	    LVR18_Note.setEnabled(false);
-	    LVR18_Note.setText("РџСЂРёРјРµС‡Р°РЅРёРµ Р’Р  18");
+	    LVR18_Note.setText("Примечание ВР 18");
 	    edVR18_Note.setEnabled(false);
 	    //jLabel26.setText(".");
 	    LHeader.setFont(new java.awt.Font("Dialog", 1, 14));
 	    LHeader.setAlignmentX((float) 0.5);
 	    LHeader.setHorizontalAlignment(SwingConstants.CENTER);
 	    LHeader.setHorizontalTextPosition(SwingConstants.CENTER);
-	    LHeader.setText("РњРѕРґРёС„РёРєР°С†РёСЏ РёР·РґРµР»РёСЏ << РЎР±. РµРґРёРЅРёС†Р° >>");
+	    LHeader.setText("Модификация изделия << Сб. единица >>");
 	    vrtLogo.setText("");
 		try {
 			vrtLogo = new JLabel(new ImageIcon(getClass().getClassLoader()
@@ -422,7 +434,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    jpVR.setMinimumSize(new Dimension(110, 400));
 	    jpVR.setPreferredSize(new Dimension(444, 400));
 	    jLabel21.setRequestFocusEnabled(true);
-	    jLabel21.setText("Р›РёС‚РµСЂС‹");
+	    jLabel21.setText("Литеры");
 	    edNameFull.setBackground(new Color(255, 217, 217));
 	    edNameFull.setMinimumSize(new Dimension(20, 21));
 	    edNameFull.setPreferredSize(new Dimension(150, 21));
@@ -430,55 +442,55 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    edNameFull.setColumns(0);
 	    cbLiter1.setMinimumSize(new Dimension(50, 21));
 	    cbLiter1.setPreferredSize(new Dimension(50, 21));
-	    jLabel6.setText("РњР°СЃСЃР°");
+	    jLabel6.setText("Масса");
 	    edMassa.setMinimumSize(new Dimension(140, 21));
 	    edMassa.setPreferredSize(new Dimension(120, 21));
 	    edTrud.setPreferredSize(new Dimension(100, 21));
 	    edTrud.setMinimumSize(new Dimension(100, 21));
-	    jLabel110.setText("Р”Р°С‚Р° РёР·РјРµРЅРµРЅРёСЏ");
+	    jLabel110.setText("Дата изменения");
 	    dateChange.setTitle("sas");
 	    dateChange.setDisplayFormat("dd.MM.yyyy");
-	    dateChange.setText("< Р”Р°С‚Р° РЅРµ Р·Р°РґР°РЅР° >");
+	    dateChange.setText("< Дата не задана >");
 	    dateChange.setToolTipText("");
 	    dateChange.setPreferredSize(new Dimension(150, 21));
 	    dateChange.setMinimumSize(new Dimension(150, 21));
-	    LReviewer.setText("РџСЂРѕРІРµСЂРёР»");
+	    LReviewer.setText("Проверил");
 	    jpSignOffs.setLayout(gridbagLayout1);
 	    dateNK.setDisplayFormat("dd-MM-yyyy");
-	    dateNK.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
+	    dateNK.setText("Дата не установлена");
 	    edNormocontrol.setMinimumSize(new Dimension(140, 21));
 	    edNormocontrol.setPreferredSize(new Dimension(140, 21));
-	    LApprover2.setText("РќР°С‡. РѕС‚РґРµР»Р°");
+	    LApprover2.setText("Нач. отдела");
 	    dateTK.setDisplayFormat("dd-MM-yyyy");
-	    dateTK.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
-	    LApprover1.setText("РўРµС….РљРѕРЅС‚СЂРѕР»СЊ");
-	    dateApprove.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
+	    dateTK.setText("Дата не установлена");
+	    LApprover1.setText("Тех.Контроль");
+	    dateApprove.setText("Дата не установлена");
 	    dateApprove.setDisplayFormat("dd-MM-yyyy");
-	    LCreator.setText("Р Р°Р·СЂР°Р±РѕС‚Р°Р»");
+	    LCreator.setText("Разработал");
 	    edReviewer.setMinimumSize(new Dimension(140, 21));
 	    edReviewer.setPreferredSize(new Dimension(140, 21));
 	    edNachOtd.setMinimumSize(new Dimension(140, 21));
 	    edNachOtd.setPreferredSize(new Dimension(140, 21));
-	    LNormo.setText("РќРѕСЂРјРѕРєРѕРЅС‚СЂРѕР»СЊ");
+	    LNormo.setText("Нормоконтроль");
 	    edAdditional.setBorder(null);
 	    edAdditional.setMinimumSize(new Dimension(82, 64));
 	    edAdditional.setPreferredSize(new Dimension(82, 64));
 	    edAdditional.setRows(3);
-	    LApprover.setText("РЈС‚РІРµСЂРґРёР»");
-	    dateCreator.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
+	    LApprover.setText("Утвердил");
+	    dateCreator.setText("Дата не установлена");
 	    dateCreator.setDisplayFormat("dd-MM-yyyy");
-	    jLabel12.setText("Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СЃРѕРіР»Р°СЃСѓСЋС‰РёРµ Р»РёС†Р°");
-	    dateReview.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
+	    jLabel12.setText("Дополнительные согласующие лица");
+	    dateReview.setText("Дата не установлена");
 	    dateReview.setDisplayFormat("dd-MM-yyyy");
 	    edTechcontrol.setMinimumSize(new Dimension(140, 21));
 	    edTechcontrol.setPreferredSize(new Dimension(140, 21));
 	    dateNachOtd.setDisplayFormat("dd-MM-yyyy");
-	    dateNachOtd.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
+	    dateNachOtd.setText("Дата не установлена");
 	    edApprover.setMinimumSize(new Dimension(140, 21));
 	    edApprover.setPreferredSize(new Dimension(140, 21));
 	    edCreator.setMinimumSize(new Dimension(140, 21));
 	    edCreator.setPreferredSize(new Dimension(140, 21));
-	    jLabel23.setText("Р¤РѕСЂРјР°С‚");
+	    jLabel23.setText("Формат");
 	    cbFormat.setPreferredSize(new Dimension(60, 21));
 	    cbFormat.addItemListener(new java.awt.event.ItemListener() {
 	      public void itemStateChanged(ItemEvent e) {
@@ -486,7 +498,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	      }
 	    });
 	    cbFormat.setMinimumSize(new Dimension(60, 21));
-	    jLabel24.setText(" N РР (РџР)");
+	    jLabel24.setText(" N ИИ (ПИ)");
 	    edN_Izv.setMinimumSize(new Dimension(100, 21));
 	    edN_Izv.setPreferredSize(new Dimension(100, 21));
 	    edFormat.setMinimumSize(new Dimension(100, 21));
@@ -503,7 +515,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	        btClrFmt_actionPerformed(e);
 	      }
 	    });
-	    jLabel30.setText("РџРѕРґСЂР°Р·РґРµР»РµРЅРёСЏ");
+	    jLabel30.setText("Подразделения");
 	    cbCexa.setMinimumSize(new Dimension(50, 21));
 	    cbCexa.setPreferredSize(new Dimension(50, 21));
 	    cbCexa.addItemListener(new java.awt.event.ItemListener()
@@ -515,52 +527,52 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    });
 	    cbCexa.setMinimumSize(new Dimension(50, 21));
 	    cbCexa.setPreferredSize(new Dimension(50, 21));
-	    jLabel29.setText("Р Р°СЃС†РµС…РѕРІРєР°");
+	    jLabel29.setText("Расцеховка");
 	    jpRascex.setLayout(gridBagLayout9);
 	    jLabel32.setText("-");
 	    edRascex.setMinimumSize(new Dimension(26, 21));
 	    edRascex.setPreferredSize(new Dimension(26, 21));
 	    edRascex.setText("");
-	    chbVR3_p.setText("РџРµСЂРµР±РѕСЂРєР°");
-	    LVR3_Note.setText("РџСЂРёРјРµС‡Р°РЅРёРµ Р’Р  3");
-	    chbVR3_s.setText("РЎРґР°С‚РѕС‡РЅС‹Рµ РёСЃРїС‹С‚Р°РЅРёСЏ");
+	    chbVR3_p.setText("Переборка");
+	    LVR3_Note.setText("Примечание ВР 3");
+	    chbVR3_s.setText("Сдаточные испытания");
 	    chbVR3_s.setHorizontalTextPosition(SwingConstants.RIGHT);
 	    jpVR3.setMinimumSize(new Dimension(100, 100));
 	    jpVR3.setPreferredSize(new Dimension(444, 100));
 	    jpVR3.setLayout(gridBagLayout10);
-	    jpVR3.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"Р’Р  3 - Р”РµС‚Р°Р»Рё, РїРѕРґР»РµР¶Р°С‰РёРµ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕР№ Р·Р°РјРµРЅРµ РїСЂРё РїРµСЂРµР±РѕСЂРєР°С…"));
-	    chbVR3_s.setText("РЎРґР°С‚РѕС‡РЅС‹Рµ РёСЃРїС‹С‚Р°РЅРёСЏ");
-	    chbVR3_p.setText("РџРµСЂРµР±РѕСЂРєР°");
-	    LVR3_Note.setText("РџСЂРёРјРµС‡Р°РЅРёРµ Р’Р 3");
-	    LDateVnedr.setText("Р”Р°С‚Р° РІРЅРµРґСЂРµРЅРёСЏ РР");
+	    jpVR3.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"ВР 3 - Детали, подлежащие обязательной замене при переборках"));
+	    chbVR3_s.setText("Сдаточные испытания");
+	    chbVR3_p.setText("Переборка");
+	    LVR3_Note.setText("Примечание ВР3");
+	    LDateVnedr.setText("Дата внедрения ИИ");
 	    dateVnedrII.setMinimumSize(new Dimension(150, 21));
 	    dateVnedrII.setPreferredSize(new Dimension(150, 21));
-	    dateVnedrII.setText("< Р”Р°С‚Р° РЅРµ Р·Р°РґР°РЅР° >");
+	    dateVnedrII.setText("< Дата не задана >");
 	    dateVnedrII.setDisplayFormat("dd.MM.yyyy");
 	    cbLiter2.setPreferredSize(new Dimension(50, 21));
 	    cbLiter2.setMinimumSize(new Dimension(50, 21));
 	    cbLiter3.setPreferredSize(new Dimension(50, 21));
 	    cbLiter3.setMinimumSize(new Dimension(50, 21));
 	    LVR10_Note.setEnabled(false);
-	    LVR10_Note.setText("РџСЂРёРјРµС‡Р°РЅРёРµ Р’Р  10");
+	    LVR10_Note.setText("Примечание ВР 10");
 	    chbVR10.setHorizontalTextPosition(SwingConstants.RIGHT);
-	    chbVR10.setText("РџСЂРёР·РЅР°Рє РІС…РѕР¶РґРµРЅРёСЏ РІ Р’Р  10");
+	    chbVR10.setText("Признак вхождения в ВР 10");
 	    chbVR10.addChangeListener(new javax.swing.event.ChangeListener() {
 	      public void stateChanged(ChangeEvent e) {
 	        chbVR_stateChanged(e);
 	      }
 	    });
 	    edVR10_Note.setEnabled(false);
-	    jpVR10.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"Р’Р  10 - РўРµС…РЅРѕР»РѕРіРёС‡РµСЃРєРёР№ РїР°СЃРїРѕСЂС‚"));
+	    jpVR10.setBorder(new TitledBorder(BorderFactory.createEtchedBorder(Color.white,new Color(148, 145, 140)),"ВР 10 - Технологический паспорт"));
 	    jpVR10.setMinimumSize(new Dimension(100, 100));
 	    jpVR10.setPreferredSize(new Dimension(444, 100));
 	    jpVR10.setLayout(gridBagLayout4);
-	    jLabel2.setText("РґР»СЏ");
+	    jLabel2.setText("для");
 	    chbZag.setHorizontalAlignment(SwingConstants.LEADING);
 	    chbZag.setHorizontalTextPosition(SwingConstants.LEADING);
-	    chbZag.setText("Р—Р°РіРѕС‚РѕРІРєР°");
+	    chbZag.setText("Заготовка");
 	    edZag.setText("");
-	    chbFromModel.setText("РР· РјРѕРґРµР»Рё");
+	    chbFromModel.setText("Из модели");
 	    chbFromModel.addActionListener(new java.awt.event.ActionListener()
 	    {
 	      public void actionPerformed(ActionEvent e)
@@ -568,30 +580,30 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	        chbFromModel_actionPerformed(e);
 	      }
 	    });
-	    jLabel3.setText("Р Р°Р·РјРµС‰РµРЅРёРµ РѕСЂРёРіРёРЅР°Р»Р°");
+	    jLabel3.setText("Размещение оригинала");
 	    edOrigin.setText("");
-	    jLabel4.setText("РљРѕРЅСЃС‚СЂСѓРєС‚РёРІРЅР°СЏ РіСЂСѓРїРїР°");
+	    jLabel4.setText("Конструктивная группа");
 	    chbOsobo.setHorizontalTextPosition(SwingConstants.LEADING);
-	    chbOsobo.setText("РћСЃРѕР±Рѕ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅР°СЏ");
-	    jLabel8.setText("Р’РёРґ РёР·РґРµР»РёСЏ");
+	    chbOsobo.setText("Особо ответственная");
+	    jLabel8.setText("Вид изделия");
 	    edType.setFont(new java.awt.Font("Dialog", 1, 11));
 	    edType.setEditable(false);
 	    edType.setText("");
 	    edRev.setEditable(false);
 	    edRev.setText("");
-	    jLabel13.setText("Р РµРІРёР·РёСЏ");
+	    jLabel13.setText("Ревизия");
 	    jLabel14.setToolTipText("");
-	    jLabel14.setText("Р‘Р°Р·РѕРІР°СЏ CAD-СЃРёСЃС‚РµРјР°");
+	    jLabel14.setText("Базовая CAD-система");
 	    this.setMinimumSize(new Dimension(500, 500));
 	    this.setPreferredSize(new Dimension(500, 500));
 	    edDepth.setInputVerifier(floatVerifier);
 	    edDepth.setText("");
-	    LCreator1.setText("Р Р°Р·СЂР°Р±РѕС‚Р°Р»");
-	    jLabel16.setText("Р”Р»РёРЅР°, (РјРј)");
+	    LCreator1.setText("Разработал");
+	    jLabel16.setText("Длина, (мм)");
 	    edWidth.setInputVerifier(floatVerifier);
 	    edWidth.setText("");
-	    jLabel18.setText("Р“Р»СѓР±РёРЅР°, (РјРј)");
-	    jLabel17.setText("РЁРёСЂРёРЅР°, (РјРј)");
+	    jLabel18.setText("Глубина, (мм)");
+	    jLabel17.setText("Ширина, (мм)");
 	    jPanel1.setBorder(titledBorder1);
 	    jPanel1.setMinimumSize(new Dimension(300, 100));
 	    jPanel1.setPreferredSize(new Dimension(300, 100));
@@ -605,11 +617,11 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    jpMilx.setPreferredSize(new Dimension(400, 189));
 	    LNotSaved.setFont(new java.awt.Font("Dialog", 0, 12));
 	    LNotSaved.setForeground(Color.red);
-	    LNotSaved.setText("РљР°СЂС‚РѕС‡РєР° РЅРµ СЃРѕС…СЂР°РЅРµРЅР°!");
+	    LNotSaved.setText("Карточка не сохранена!");
 	    edChangeNotice.setMinimumSize(new Dimension(130, 21));
 	    edChangeNotice.setPreferredSize(new Dimension(130, 21));
 	    edChangeNotice.setEnabled(false);
-	
+
 	    /*jpVR18.add(chbVR18,     new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0
 	          ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 	    jpVR18.add(LVR18_Note,    new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
@@ -659,10 +671,10 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	    jLabel22.setText(".");
 	    edNachBrig.setPreferredSize(new Dimension(140, 21));
 	    edNachBrig.setMinimumSize(new Dimension(140, 21));
-	    LApprover3.setText("РќР°С‡. Р‘СЂРёРіР°РґС‹");
+	    LApprover3.setText("Нач. Бригады");
 	    dateNachBrig.setDisplayFormat("dd-MM-yyyy");
-	    dateNachBrig.setText("Р”Р°С‚Р° РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°");
-	    jLabel111.setText("РћС‚РґРµР»");
+	    dateNachBrig.setText("Дата не установлена");
+	    jLabel111.setText("Отдел");
 	    cbOtdel.setMinimumSize(new Dimension(100, 19));
 	    MainPanel.add(cbFormat,                                                                                     new GridBagConstraints(4, 7, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 2, 5, 0), 0, 0));
@@ -670,7 +682,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 0), 0, 0));
 	    MainPanel.add(edChangeNotice,                                                                                 new GridBagConstraints(1, 6, 5, 1, 0.0, 0.0
 	    		            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 0), 0, 0));
-	    
+
 	    MainPanel.add(jLabel23,                                                                                                    new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 5, 0), 0, 0));
 	    MainPanel.add(jLabel24,                                                                                             new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
@@ -705,7 +717,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 5, 0), 0, 0));
 	    MainPanel.add(btClrFmt,                                                                          new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 2, 5, 0), 0, 0));
-	   
+
 	    MainPanel.add(cbLiter2,                                                          new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 5, 0), 0, 0));
 	    MainPanel.add(cbLiter3,                                                     new GridBagConstraints(3, 8, 1, 1, 0.0, 0.0
@@ -716,7 +728,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 	    MainPanel.add(edZag,                                                 new GridBagConstraints(2, 10, 5, 1, 0.0, 0.0
 	            ,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 0), 0, 0));
-	    TabbedPane.add(MainPanel, "РћР±С‰РёРµ РґР°РЅРЅС‹Рµ");
+	    TabbedPane.add(MainPanel, "Общие данные");
 
 
 	    //this.add(LHeader,  BorderLayout.NORTH);
@@ -726,7 +738,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 		panelHead.add(LHeader, BorderLayout.CENTER);
 		panelHead.add(vrtLogo, BorderLayout.EAST);
 		this.add(panelHead, BorderLayout.NORTH);
-	    
+
 	    this.add(TabbedPane,  BorderLayout.CENTER);
 
 	    jpSignOffs.add(cbCreator,               new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
@@ -764,7 +776,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(15, 5, 5, 5), 0, 0));
 	    jpSignOffs.add(dateNachOtd,                         new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-	    
+
 	    jpSignOffs.add(jLabel22,                       new GridBagConstraints(0, 8, 1, 1, 0.0, 1.0
 	            ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 	    jpSignOffs.add(edNachBrig,                       new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
@@ -779,7 +791,7 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 	    jpSignOffs.add(cbOtdel,      new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 5), 0, 0));
-	
+
 	    MainPanel.add(jLabel6,                                                new GridBagConstraints(4, 8, 1, 1, 0.0, 0.0
 	            ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(10, 0, 5, 0), 0, 0));
 	    MainPanel.add(edMassa,                                                new GridBagConstraints(5, 8, 1, 1, 0.0, 0.0
@@ -810,15 +822,15 @@ public class SbEdRevPanel extends JPanel implements InterfaceFormPanel
 	            ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 0), 0, 0));
 	    MainPanel.add(LNotSaved,             new GridBagConstraints(2, 13, 4, 1, 0.0, 0.0
 	            ,GridBagConstraints.NORTH, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-	
+
 	    MainPanel.add(jLabelIzv, new GridBagConstraints(0, 13, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 	    //!!MainPanel.add(jLabelIzv, new GridBagConstraints(0, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-	    
-	    
+
+
 	    MainPanel.add(edChangeNotice, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 5, 0, 0), 0, 0));
-	    
-	    TabbedPane.add(jpMilx,   "РџСЂРѕС‡РµРµ");
-	    TabbedPane.add(jpSignOffs,  "РџРѕРґРїРёСЃРё");
+
+	    TabbedPane.add(jpMilx,   "Прочее");
+	    TabbedPane.add(jpSignOffs,  "Подписи");
 
 	    jpMilx.add(jLabel7,    new GridBagConstraints(0, 5, 1, 1, 0.0, 1.0
 	            ,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));

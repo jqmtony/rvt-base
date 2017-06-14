@@ -1,4 +1,3 @@
-#Wed Apr 06 09:07:57 VET 2016
 eclipse.preferences.version=1
 encoding//src/ru/rostvertolplc/osapr/extmaterial=windows-1251
 encoding//src/ru/rostvertolplc/osapr/extmaterial/IMBASE_Util.java=windows-1251
@@ -18,9 +17,11 @@ encoding//src/ru/rostvertolplc/osapr/forms/H47StandartIzdForm.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/H47StandartIzdRevForm.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/H48PIRVZForm.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/H48PIRVZRevForm.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/MaterialForm.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/MaterialItemPanel.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/MaterialRevPanel.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/ProcheeItemPanel.java=windows-1251
+encoding//src/ru/rostvertolplc/osapr/forms/SbEdRevPanel.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/ShowInfoDialog.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/SmartTCEForm.java=windows-1251
 encoding//src/ru/rostvertolplc/osapr/forms/StdItemPanel.java=windows-1251

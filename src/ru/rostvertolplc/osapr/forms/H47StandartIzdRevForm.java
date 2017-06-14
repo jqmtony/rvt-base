@@ -22,7 +22,7 @@ import com.teamcenter.rac.kernel.TCException;
 import com.teamcenter.rac.kernel.TCSession;
 import com.teamcenter.rac.util.MessageBox;
 import com.teamcenter.rac.util.Registry;
-import com.teamcenter.rac.stylesheet.*;
+import com.teamcenter.rac.stylesheet.AbstractRendering;
 
 public class H47StandartIzdRevForm extends AbstractRendering {
 
@@ -151,10 +151,10 @@ public class H47StandartIzdRevForm extends AbstractRendering {
 		}
 	}
 
-	public H47StandartIzdRevForm(TCComponentForm theForm) throws Exception {
+	public H47StandartIzdRevForm(TCComponent theForm) throws Exception {
 		super(theForm);
 
-		form = theForm;
+		form = (TCComponentForm)theForm;
 
 		session = (TCSession) form.getSession();
 		loadRendering();
@@ -178,7 +178,7 @@ public class H47StandartIzdRevForm extends AbstractRendering {
 			if (data.item == null) {
 				rev_form = (TCComponentForm) this.component;
 				sform_rev = new SmartTCEForm(rev_form);
-				
+
 			} else {
 				try {
 					data.item_rev = data.item.getLatestItemRevision();

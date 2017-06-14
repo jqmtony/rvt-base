@@ -12,11 +12,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class XMLConfigurationProperties {
-	
+
 	private static String DEFAULT_PACKAGE = "/resources/xmlConfigs/";
-	
+
 	private static Map<String, Document> xmls = new HashMap();
-  
+
 	public static List<Element> getElemntsFromXml(String xmlConfigFile, String property) {
 		Document doc = getDocument(xmlConfigFile);
 		if (doc == null) {
@@ -30,7 +30,7 @@ public class XMLConfigurationProperties {
 		}
 		return values;
 	}
-  
+
 	private static Document getDocument(String xmlConfigFile) {
 		if (xmls.containsKey(xmlConfigFile)) {
 			return (Document)xmls.get(xmlConfigFile);
